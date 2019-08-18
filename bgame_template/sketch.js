@@ -4,6 +4,7 @@
   Summer 2019
 */
 
+<<<<<<< HEAD
 //games (bY - rows, bX - cols)
 let ttt = {
   bY: 3,
@@ -129,10 +130,42 @@ function mousePressed(){
       ellipse(game.board.grid[y][x].centerX, game.board.grid[y][x].centerY, squareSize/2, squareSize/2);
       if (game.board.grid[y][x].clicked()){
         console.log('row/col', y, x);
+=======
+let board = [
+  ['X', 'O', 'O'],
+  ['', 'X', ''],
+  ['', 'O', ''],
+];
+
+let player1 = 'X';
+let player2 = '0';
+
+function setup(){
+  createCanvas(400,400);
+
+}
+
+function draw(){
+  background(220);
+  let w = width/3;
+  let h = height/3;
+
+  for (let i = 0; i < 3; i++){
+    for (let j = 0; j < 3; j++){
+      let x = w * i + w/2;
+      let y = h * j + h/2;
+      let spot = board[i][j];
+      if (spot == player1){
+        ellipse(x,y,w);
+      } else if (spot == player 2) {
+        line(x, y, x+w, y+h);
+        line(x+w, y, x, y+h);
+>>>>>>> 3f3bae517a39d6f6df985234e1ed066abdcf372f
       }
     }
   }
 }
+<<<<<<< HEAD
 function drawBoard(){
 
   // push();
@@ -164,3 +197,5 @@ function resetGame(){
     firstPlayer = game.params.p2;
   }
 }
+=======
+>>>>>>> 3f3bae517a39d6f6df985234e1ed066abdcf372f
