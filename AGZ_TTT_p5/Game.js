@@ -1,5 +1,5 @@
 class Game {
   constructor() {
-    console.log('Game constructer');
+    console.log('Game constructor -- why?');
   }
 }
