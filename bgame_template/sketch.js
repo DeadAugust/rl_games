@@ -31,6 +31,10 @@ let ttt = {
         }
       }
       if (count == winCount) {
+        for (let w = 0; w < board.rows; w++){
+          board.grid[w][x].win = 'gold';
+          board.grid[w][x].winWeight = 10;
+        }
         return true;
       }
     }
@@ -43,6 +47,10 @@ let ttt = {
         }
       }
       if (count == winCount) {
+        for (let w = 0; w < board.cols; w++){
+          board.grid[y][w].win = 'gold';
+          board.grid[y][w].winWeight = 10;
+        }
         return true;
       }
     }
@@ -54,6 +62,10 @@ let ttt = {
       }
     }
     if (count == winCount) {
+      for (let w = 0; w < board.rows; w++){
+        board.grid[w][w].win = 'gold';
+        board.grid[w][w].winWeight = 10;
+      }
       return true;
     }
     count = 0;
@@ -63,6 +75,10 @@ let ttt = {
       }
     }
     if (count == winCount){
+      for (let w = 0; w < board.rows; w++){
+        board.grid[w][board.rows - w - 1].win = 'gold';
+        board.grid[w][board.rows - w - 1].winWeight = 10;
+      }
       return true;
     }
   }
@@ -75,45 +91,42 @@ let c4 = {
   p2: 'yellow'
 };
 
+//DOM elements
+let gameSelect, reset;
 //overall variables
-let game = {
+let game = { //just for start
   name: 'tic tac toe',
   params: ttt
 }
-// let gameBoard = ttt;
-let gameSelect;
-let reset;
-// let firstPlayer;
 let currentPlayer;
 let gameStarted = false;
 // let firstMove = false;
 let squareSize; //need to make a part of board variable so bigger board still small
-let wideScreen;
 //board stats same for all games:
+let wideScreen;
 let boardWidth, boardLength;
 let boardCenterX, boardCenterY;
 let boardCornerX, boardCornerY;
-let win = false;
-
+// let win = false;
+let gameEnd = false;
 
 class Square {
   constructor(bCols, bRows, gridX, gridY) { //
     this.bCols = bCols;
     this.bRows = bRows;
-    // this.index = index;
     this.gridX = gridX;
     this.gridY = gridY;
 
-    //the center of each square
-    // this.centerY = cornerY + ((gridY+1)*(squareSize/2));
-    // this.centerX = cornerX + ((gridX+1)*(squareSize/2));
-
+    //the center of each square for drawing
     this.centerX = boardCornerX + (gridX * squareSize) + squareSize / 2;
     this.centerY = boardCornerY + (gridY * squareSize) + squareSize / 2;
 
-
     //what's in it
     this.slot = '';
+
+    //for win highlighting
+    this.win = 'black';
+    this.winWeight = 2;
   }
   clicked() {
     let d = dist(mouseX, mouseY, this.centerX, this.centerY);
@@ -149,56 +162,32 @@ class Board {
         let newSq = new Square (cols, rows, x, y);
         // grid[y][x] = newSq; //can't remember why this doesn't work
         gridRow.push(newSq);
-        // console.log(newSq);
-        // console.log(x, y);
-        // console.log(grid);
       }
       grid.push(gridRow);
-      // console.log(grid);
     }
-    /*
-    //set up array of squares
-    let grid = [];
-    for (let y = 0; y < this.rows; y++) {
-      for (let x = 0; x < this.cols; x++) {
-        let index = (y * rows) + x;
-
-        // let newSq = new Square (cols, rows, index, x, y, centerX, centerY);
-        let newSq = new Square(cols, rows, index, x, y);
-        console.log(newSq);
-        grid.push(newSq);
-        //hmm....
-      }
-    }
-    */
     console.log(grid);
     this.grid = grid;
   }
   draw() { //display game
-
     for (let y = 0; y < this.rows; y++){
       for (let x = 0; x < this.cols; x++){
+        strokeWeight(this.grid[y][x].winWeight);
+        stroke(this.grid[y][x].win);
         rect(this.grid[y][x].centerX, this.grid[y][x].centerY, squareSize, squareSize);
         text(this.grid[y][x].slot, this.grid[y][x].centerX, this.grid[y][x].centerY);
       }
     }
-    /*
-    for (let i = 0; i < this.cols * this.rows; i++) {
-      rect(this.grid[i].centerX, this.grid[i].centerY, squareSize, squareSize);
-      text(this.grid[i].slot, this.grid[i].centerX, this.grid[i].centerY);
-      //need eventual color option for C4
-    }
-    */
   }
   move() { //click on board
-    // for (let i = 0; i < this.cols * this.rows; i++) {
     for (let y = 0; y < this.rows; y++){
       for (let x = 0; x < this.cols; x++){
         if (this.grid[y][x].clicked()) {
           this.grid[y][x].slot = currentPlayer;
           if (game.params.winCheck(this, currentPlayer)){
+            gameEnd = true;
             console.log(currentPlayer + " wins!");
           } else if (game.params.drawCheck(this)){
+            gameEnd = true;
             console.log('draw');
           } else{ //if no win or draw, change player, next turn
             if (currentPlayer == game.params.p1) {
@@ -232,9 +221,6 @@ function setup() {
     boardHeight = height / 2;
     boardWidth = boardHeight;
   }
-  //center of board, in middle of canvas
-  // boardCenterX = width/2;
-  // boardCenterY = height/2;
 
   //game dropdown
   gameSelect = createSelect();
@@ -254,38 +240,24 @@ function setup() {
 function draw() {
   background(220);
   push();
+  noStroke();
   textSize(20);
-  if (gameStarted) {
+  if (gameEnd){
+    text('GAME OVER ', width / 2, 2 * height / 10);
+  } else if (gameStarted) {
     text('Player Turn: ' + currentPlayer, width / 2, 2 * height / 10);
   }
   pop();
-  // drawBoard();
   game.board.draw();
 }
 
-function mousePressed() {
-  //need to make square class with clickable thing
+function mousePressed() { //check if square was clicked
   game.board.move();
-  // console.log('XY: ', mouseX, mouseY);
-  // console.log('SS', squareSize);
-  // console.log('Corn:', game.board.cornerX, game.board.cornerY);
 }
-/*
-function drawBoard(){
 
-  // push();
-  translate(width/game.params.bX, height/game.params.bY);
-  for (let i = 0; i < game.params.bX; i++){
-    for (let j = 0; j < game.params.bY; j++){
-      stroke(2);
-      rect((i+1)*squareSize, (j+1)*squareSize, squareSize, squareSize);
-    }
-  }
-  // pop();
-}
-*/
 function resetGame() {
   gameStarted = true;
+  gameEnd = false;
   //change game data
   game.name = gameSelect.value();
   if (game.name == 'tic tac toe') {
