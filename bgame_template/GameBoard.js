@@ -63,8 +63,8 @@ class Board {
       for (let x = 0; x < this.cols; x++){
         strokeWeight(this.grid[y][x].winWeight);
         stroke(this.grid[y][x].win);
-        rect(this.grid[y][x].centerX, this.grid[y][x].centerY, squareSize, squareSize);
-        text(this.grid[y][x].slot, this.grid[y][x].centerX, this.grid[y][x].centerY);
+        //different display for each game, some text some fill
+        game.params.display(this, y, x);
       }
     }
   }

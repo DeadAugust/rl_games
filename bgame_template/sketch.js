@@ -57,10 +57,11 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(50, 225, 100); // green
   push();
   noStroke();
-  textSize(20);
+  textSize(height/15);
+  fill(0);
   if (gameEnd){
     text('GAME OVER ', width / 2, 2 * height / 10);
   } else if (gameStarted) {
@@ -71,7 +72,9 @@ function draw() {
 }
 
 function mousePressed() { //check if square was clicked
-  game.board.move();
+  if (!gameEnd){
+    game.board.move();
+  }
 }
 
 function resetGame() {

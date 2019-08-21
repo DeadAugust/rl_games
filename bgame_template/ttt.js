@@ -5,14 +5,21 @@ let ttt = {
   bCols: 3,
   p1: 'X',
   p2: 'O',
+  display: function(board, y, x){
+    //space and text
+    rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
+    text(board.grid[y][x].slot, board.grid[y][x].centerX, board.grid[y][x].centerY);
+  },
   drawCheck: function(board){
     for (let y = 0; y < board.rows; y++){
       for (let x = 0; x < board.cols; x++){
         if (board.grid[y][x].slot == ''){
+          //exits as soon as it sees board not full
           return false;
         }
       }
     }
+    //if board is full
     return true;
   },
   winCheck: function(board, player){ //need to pass game.board as board
