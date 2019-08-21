@@ -38,6 +38,7 @@ let c4 = {
     //going to have issue with pointers?
 
     let winCount = 4;
+    /* //don't need because not .checked or .winner
     let checkGrid = [];
     for (let y = 0; y < board.rows; y++){
       let gridRow = [];
@@ -50,32 +51,33 @@ let c4 = {
       checkGrid.push(gridRow);
     }
     console.log("checkGrid:", checkGrid);
+    */
 
     //wait, only need to check from move space.... but too complicated?
     //start from bottom right
     for (let y = board.rows - 1; y >= 0; y--){
       for (let x = board.cols - 1; x >= 0; x--){
-        if (checkGrid[y][x].slot == currentPlayer){
-          if (checkGrid[y][x].checked == false){ //redundant?
-            if(checkStreak(checkGrid, y, x, board.rows, board.cols)){ //goes through whole tree?
+        if (board.grid[y][x].slot == currentPlayer){
+          // if (board.grid[y][x].checked == false){ //redundant?
+            if(checkStreak(board.grid, y, x, board.rows, board.cols)){ //goes through whole tree?
               // console.log(currentPlayer + " wins");
               return true;
             } else { //no win
               console.log('no win');
               // checkGrid[y][x].checked = true;
             }
-          }
+          // }
         }
       }
     }
     //new checkNeighbors without rats nest
-    function checkStreak(grid, y, x, bRows, bCols){
+    function checkStreak(grid, y, x, bRows, bCols){ //don't need check anymore
       for (let i = -1; i <= 1; i++){ //row neighbors
         for (let j = -1; j <= 1; j++){ //col neighbors
           // console.log("row " + (y+i), "col: " + (x+j));
           if ((((y+i) != y) || ((x+j) != x)) && //to prevent checking own space
             ((y+i) < bRows && (y+i) >= 0 && (x+j) < bCols && (x+j) >= 0) && //to prevent out of bounds
-            (grid[y+i][x+j].checked == false) && //if hasn't been checked
+            // (grid[y+i][x+j].checked == false) && //if hasn't been checked
             // (grid[y+i][x+j].slot != '') && //if not empty
             (grid[y+i][x+j].slot == currentPlayer)) { //lastly, if right color
               // console.log('space valid: row ' +  (y+i) + " and col " + (x+j));
@@ -88,6 +90,14 @@ let c4 = {
                 (grid[y+i+i][x+j+j].slot == currentPlayer) &&
                 (grid[y+i+i+i][x+j+j+j].slot == currentPlayer)){ //if continues streak all the way to 4
                   console.log('streak!');
+                  grid[y][x].win = 'cyan';
+                  grid[y][x].winWeight = 10;
+                  grid[y+i][x+j].win = 'cyan';
+                  grid[y+i][x+j].winWeight = 10;
+                  grid[y+i+i][x+j+j].win = 'cyan';
+                  grid[y+i+i][x+j+j].winWeight = 10;
+                  grid[y+i+i+i][x+j+j+j].win = 'cyan';
+                  grid[y+i+i+i][x+j+j+j].winWeight = 10;
                   return true;
               } else {
                 return false;
