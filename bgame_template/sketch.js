@@ -3,17 +3,67 @@
   for ml5 RL examples
   Summer 2019
 */
-
-//games (bY - rows, bX - cols)
+//games x,y = col,row
 let ttt = {
   bRows: 3,
   bCols: 3,
   p1: 'X',
   p2: 'O',
-  winCheck: function(game){
-    for (let i = 0; i < game.board.grid.length; i++){
-      // console.log('win!');
-
+  drawCheck: function(board){
+    for (let y = 0; y < board.rows; y++){
+      for (let x = 0; x < board.cols; x++){
+        if (board.grid[y][x].slot == ''){
+          return false;
+        }
+      }
+    }
+    return true;
+  },
+  winCheck: function(board, player){ //need to pass game.board as board
+    let winCount = 3;
+    let count = 0;
+    //vertical check
+    for (let x = 0; x < board.cols; x++){
+      count = 0;
+      for (let y = 0; y < board.rows; y++) {
+        if (board.grid[y][x].slot === player) {
+          count += 1;
+        }
+      }
+      if (count == winCount) {
+        return true;
+      }
+    }
+    //horizontal check
+    for (let y = 0; y < board.rows; y++) {
+      count = 0;
+      for (let x = 0; x < board.cols; x++){
+        if (board.grid[y][x].slot === player) {
+          count += 1;
+        }
+      }
+      if (count == winCount) {
+        return true;
+      }
+    }
+    //diagonal checks
+    count = 0;
+    for (let d = 0; d < board.rows; d++){ //hmm how to do diagonal for c4?
+      if (board.grid[d][d].slot === player){
+        count += 1;
+      }
+    }
+    if (count == winCount) {
+      return true;
+    }
+    count = 0;
+    for (let d = 0; d < board.rows; d++){
+      if (board.grid[d][board.rows - d - 1].slot === player){
+        count += 1;
+      }
+    }
+    if (count == winCount){
+      return true;
     }
   }
 }
@@ -47,10 +97,10 @@ let win = false;
 
 
 class Square {
-  constructor(bCols, bRows, index, gridX, gridY) { //
+  constructor(bCols, bRows, gridX, gridY) { //
     this.bCols = bCols;
     this.bRows = bRows;
-    this.index = index;
+    // this.index = index;
     this.gridX = gridX;
     this.gridY = gridY;
 
@@ -69,7 +119,7 @@ class Square {
     let d = dist(mouseX, mouseY, this.centerX, this.centerY);
 
     if (d < (squareSize / 2)) {
-      console.log(this.index, this.slot, this.centerX, this.centerY);
+      console.log(this.slot, this.gridX, this.gridY, this.centerX, this.centerY);
       if (this.slot == '') {
         return true;
       }
@@ -90,7 +140,23 @@ class Board {
     boardCornerX = (width/2) - (boardWidth / 2);
     boardCornerY = (height/2) - (boardHeight / 2);
 
-
+    //new/old 2D grid
+    // let grid = new Array(this.rows).fill(Array(this.cols).fill(''));
+    let grid = [];
+    for (let y = 0; y < this.rows; y++){
+      let gridRow = [];
+      for (let x = 0; x < this.cols; x++){
+        let newSq = new Square (cols, rows, x, y);
+        // grid[y][x] = newSq; //can't remember why this doesn't work
+        gridRow.push(newSq);
+        // console.log(newSq);
+        // console.log(x, y);
+        // console.log(grid);
+      }
+      grid.push(gridRow);
+      // console.log(grid);
+    }
+    /*
     //set up array of squares
     let grid = [];
     for (let y = 0; y < this.rows; y++) {
@@ -104,26 +170,45 @@ class Board {
         //hmm....
       }
     }
+    */
+    console.log(grid);
     this.grid = grid;
   }
   draw() { //display game
+
+    for (let y = 0; y < this.rows; y++){
+      for (let x = 0; x < this.cols; x++){
+        rect(this.grid[y][x].centerX, this.grid[y][x].centerY, squareSize, squareSize);
+        text(this.grid[y][x].slot, this.grid[y][x].centerX, this.grid[y][x].centerY);
+      }
+    }
+    /*
     for (let i = 0; i < this.cols * this.rows; i++) {
       rect(this.grid[i].centerX, this.grid[i].centerY, squareSize, squareSize);
       text(this.grid[i].slot, this.grid[i].centerX, this.grid[i].centerY);
       //need eventual color option for C4
     }
+    */
   }
   move() { //click on board
-    for (let i = 0; i < this.cols * this.rows; i++) {
-      if (this.grid[i].clicked()) {
-        this.grid[i].slot = currentPlayer;
-        //change player, next turn
-        if (currentPlayer == game.params.p1) {
-          console.log('player 2 turn');
-          currentPlayer = game.params.p2;
-        } else {
-          console.log('player 1 turn');
-          currentPlayer = game.params.p1;
+    // for (let i = 0; i < this.cols * this.rows; i++) {
+    for (let y = 0; y < this.rows; y++){
+      for (let x = 0; x < this.cols; x++){
+        if (this.grid[y][x].clicked()) {
+          this.grid[y][x].slot = currentPlayer;
+          if (game.params.winCheck(this, currentPlayer)){
+            console.log(currentPlayer + " wins!");
+          } else if (game.params.drawCheck(this)){
+            console.log('draw');
+          } else{ //if no win or draw, change player, next turn
+            if (currentPlayer == game.params.p1) {
+              console.log('player 2 turn');
+              currentPlayer = game.params.p2;
+            } else {
+              console.log('player 1 turn');
+              currentPlayer = game.params.p1;
+            }
+          }
         }
       }
     }
