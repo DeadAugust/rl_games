@@ -23,7 +23,7 @@ class Square {
 
     if (d < (squareSize / 2)) {
       console.log(this.slot, this.gridX, this.gridY, this.centerX, this.centerY);
-      if (this.slot == '') {
+      if (this.slot == '') { //only click on empty spaces (will need to change)
         return true;
       }
     }
@@ -72,7 +72,10 @@ class Board {
     for (let y = 0; y < this.rows; y++){
       for (let x = 0; x < this.cols; x++){
         if (this.grid[y][x].clicked()) {
-          this.grid[y][x].slot = currentPlayer;
+          //different click/move effects per game
+          game.params.update(this, y, x);
+
+          //after updating grid, check for win/draw
           if (game.params.winCheck(this, currentPlayer)){
             gameEnd = true;
             console.log(currentPlayer + " wins!");

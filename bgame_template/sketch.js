@@ -44,8 +44,9 @@ function setup() {
   //game dropdown
   gameSelect = createSelect();
   gameSelect.position(width / 2, height / 20);
-  gameSelect.option('tic tac toe');
   gameSelect.option('connect 4');
+  
+  gameSelect.option('tic tac toe');
   // gameSelect.changed(changeGame);
 
   //reset game

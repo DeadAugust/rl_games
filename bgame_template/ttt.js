@@ -10,6 +10,9 @@ let ttt = {
     rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
     text(board.grid[y][x].slot, board.grid[y][x].centerX, board.grid[y][x].centerY);
   },
+  update: function(board, y, x){ //update grid after legal move
+    board.grid[y][x].slot = currentPlayer;
+  },
   drawCheck: function(board){
     for (let y = 0; y < board.rows; y++){
       for (let x = 0; x < board.cols; x++){

@@ -12,6 +12,15 @@ let c4 = {
     rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
     pop();
   },
+  update: function(board, y, x){ //don't really need y but whatever
+    //falling animation later?
+    for (let r = this.bRows - 1; r >= 0; r--){
+      if (board.grid[r][x].slot == ''){ //find lowest empty slot in col.
+        board.grid[r][x].slot = currentPlayer;
+        return;
+      }
+    }
+  },
   drawCheck: function(board){
     for (let y = 0; y < board.rows; y++){
       for (let x = 0; x < board.cols; x++){
