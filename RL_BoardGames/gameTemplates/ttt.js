@@ -98,11 +98,24 @@ function tttTrain(){
 
 }
 
+async function blueTest(){
+  ttt.downloadedModelStatus == 'blue'; //need to put draw, this doesn't work
+  push();
+  fill(ttt.downloadedModelStatus);
+  ellipse(3*width/12, 7*height/20, circleSize);
+  pop();
+}
 async function tttDownload(){
+// function tttDownload(){
   if (ttt.downloadedModelStatus == 'red') {
     console.log('TTT start to download');
-    ttt.downloadedModelStatus == 'blue'
+    ttt.downloadedModelStatus = 'blue'; //need to put draw, this doesn't work
+    // push();
+    // fill(ttt.downloadedModelStatus);
+    // ellipse(3*width/12, 7*height/20, circleSize);
+    // pop();
     await tttDownloadPretrained();
+    // tttDownloadPretrained();
     console.log('TTT model downloaded');
     ttt.downloadedModelStatus = 'green';
   }

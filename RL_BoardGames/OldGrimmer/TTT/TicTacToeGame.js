@@ -12,7 +12,7 @@ class TicTacToeGame extends Game {
   }
 
   getInitBoardNdArray() {
-    const b = new Board(this.n);
+    const b = new OldBoard(this.n);
     // return np.array(b.pieces), Python
     return nj.array(b.pieces);
   }
@@ -37,7 +37,7 @@ class TicTacToeGame extends Game {
       return { boardNdArray, player: -player };
     }
 
-    const b = new Board(this.n);
+    const b = new OldBoard(this.n);
     // b.pieces = np.copy(board), Python
     b.pieces = boardNdArray.tolist();
 
@@ -53,7 +53,7 @@ class TicTacToeGame extends Game {
     // valids = [0]*this.getActionSize()
     // b.pieces = np.copy(board)
     const valids = Array(this.getActionSize()).fill(0);
-    const b = new Board(this.n);
+    const b = new OldBoard(this.n);
     b.pieces = boardNdArray.tolist();
 
     const legalMoves = b.get_legal_moves(player);
@@ -75,7 +75,7 @@ class TicTacToeGame extends Game {
     // Python:
     // # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
     // # player = 1
-    const b = new Board(this.n);
+    const b = new OldBoard(this.n);
     b.pieces = boardNdArray.tolist();
 
     if (b.is_win(player)) {

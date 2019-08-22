@@ -61,7 +61,15 @@ function setup() {
     .position(width/12, 13 * height/40)
     .size(width/8, height/15)
     .style('fontSize', textPixels+'px')
-    .mousePressed(tttDownload);
+    .mousePressed(()=>{
+      // ttt.downloadedModelStatus == 'blue'; //need to put draw, this doesn't work
+      // push();
+      // fill(ttt.downloadedModelStatus);
+      // ellipse(3*width/12, 7*height/20, circleSize);
+      // pop();
+      blueTest();
+      tttDownload();
+    });
   c4TrainButt = createButton('Self-Train')
     .position(width/12, 23 * height/40)
     .size(width/8, height/15)
@@ -197,8 +205,6 @@ function draw() {
 }
 
 function mousePressed() { //check if square was clicked
-  let ne = new TicTacToeGame();
-  console.log(ne.getSpaces());
   if (!gameEnd){
     //only move if human player's turn
     if (currentPlayer == game.params.p1 && player1 == 'human'){
