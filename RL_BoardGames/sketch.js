@@ -6,7 +6,7 @@
   based on u/Grimmer1025's tf.js tic tac toe repo
 */
 //DOM elements
-let trainButt, downloadButt; //left side
+let tttTrainButt, tttDownloadButt, c4TrainButt, c4DownloadButt; //left side
 let gameSelect, reset; //center
 let player1Select, player2Select, resetWinsButt; //right side
 
@@ -21,6 +21,8 @@ let player1, player2; //for select option storing
 let gameStarted = false;
 // let firstMove = false;
 let squareSize; //need to make a part of board variable so bigger board still small
+let circleSize; //for left legend
+let textPixels;
 //board stats same for all games:
 let wideScreen;
 let boardWidth, boardLength;
@@ -33,6 +35,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
+  textPixels = height/36;
 
   if (windowWidth < windowHeight) {
     // squareSize = windowWidth/10;
@@ -46,26 +49,53 @@ function setup() {
     boardWidth = boardHeight;
   }
   // LEFT DOM
+  //models
+  tttTrainButt = createButton('Self-Train')
+    .position(width/12, 9 * height/40)
+    .size(width/8, height/15)
+    // .style('fontSize', '30px')
+    .style('fontSize', textPixels+'px')
 
-
+    .mousePressed(tttTrain);
+  tttDownloadButt = createButton('Download')
+    .position(width/12, 13 * height/40)
+    .size(width/8, height/15)
+    .style('fontSize', textPixels+'px')
+    .mousePressed(tttDownload);
+  c4TrainButt = createButton('Self-Train')
+    .position(width/12, 23 * height/40)
+    .size(width/8, height/15)
+    .style('fontSize', textPixels+'px')
+    .mousePressed(c4Train);
+  c4DownloadButt = createButton('Download')
+    .position(width/12, 27 * height/40)
+    .size(width/8, height/15)
+    .style('fontSize', textPixels+'px')
+    .mousePressed(c4Download);
+  //legend
+  circleSize = width/40;
   // CENTER DOM
   //game dropdown
   gameSelect = createSelect()
-    .position(width / 2, height / 20);
+    .position(3* width / 8, height / 20)
+    .size(width/4, height/20)
+    .style('fontSize', textPixels+'px');
   gameSelect.option('tic tac toe'); //why doesn't option work unless I'm verbose?
   gameSelect.option('connect 4');
 
   //reset game
   reset = createButton('New Game')
-    .position(width / 2, height / 10)
+    .position(7*width/16, 4* height / 30)
+    .size(width/8, height/30)
+    .style('fontSize', textPixels+'px')
     .mousePressed(resetGame);
 
   //RIGHT DOM
   //player options
   player1Select = createSelect();
-  player1Select.position(5 * width / 6, 2* height / 6);
+  player1Select.position(11 * width / 14, 2* height / 6);
   player1Select.size(width/7, height/14);
-  player1Select.style('fontSize', '30px'); //how to relative?
+  player1Select.style('fontSize', textPixels+'px'); //how to relative?
   player1Select.option('human');
   player1Select.option('self trained');
   player1Select.option('downloaded');
@@ -76,9 +106,9 @@ function setup() {
   player1 = player1Select.value();
 
   player2Select = createSelect();
-  player2Select.position(5 * width / 6, 4 * height / 6);
+  player2Select.position(11 * width / 14, 4 * height / 6);
   player2Select.size(width/7, height/14);
-  player2Select.style('fontSize', '30px'); //how to relative?
+  player2Select.style('fontSize', textPixels+'px'); //how to relative?
   player2Select.option('human');
   player2Select.option('self trained');
   player2Select.option('downloaded');
@@ -105,17 +135,52 @@ function setup() {
 
 function draw() {
   background(50, 225, 100); // green
+  //LEFT
+  push();
+  textSize(height/30);
+  text('Tic Tac Toe Models:', width/6, 3*height/20);
+  fill(ttt.selfTrainModel);
+  ellipse(3*width/12, 5*height/20, circleSize);
+  fill(ttt.downloadModel);
+  ellipse(3*width/12, 7*height/20, circleSize);
+  fill(0);
+  text('Connect 4 Models:', width/6, 10*height/20);
+  fill(c4.selfTrainModel);
+  ellipse(3*width/12, 12*height/20, circleSize);
+  fill(c4.downloadModel);
+  ellipse(3*width/12, 14*height/20, circleSize);
+  pop();
+
+  //legend
+  push();
+  textSize(height/40);
+  fill('green');
+  ellipse(width/12, 16* height/20, circleSize);
+  fill('blue');
+  ellipse(width/12, 17* height/20, circleSize);
+  fill('yellow');
+  ellipse(width/12, 18* height/20, circleSize);
+  fill('red');
+  ellipse(width/12, 19* height/20, circleSize);
+  fill(0);
+  text('Model Ready', width/6, 16*height/20);
+  text('In Progress', width/6, 17*height/20);
+  text('Error', width/6, 18*height/20);
+  text('No Model', width/6, 19*height/20);
+  pop();
+
   //CENTER
   push();
   noStroke();
   textSize(height/15);
   fill(0);
   if (gameEnd){
-    text('GAME OVER ', width / 2, 2 * height / 10);
+    text('GAME OVER ', width / 2, 9 * height / 10);
   } else if (gameStarted) {
-    text('Player Turn: ' + currentPlayer, width / 2, 2 * height / 10);
+    text('Player Turn: ' + currentPlayer, width / 2, 17 * height / 20);
   }
   pop();
+
   //RIGHT
   push();
   textSize(height/20);

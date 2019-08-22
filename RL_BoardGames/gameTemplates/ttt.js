@@ -5,6 +5,8 @@ let ttt = {
   bCols: 3,
   p1: 'X',
   p2: 'O',
+  selfTrainModel: 'red',
+  downloadModel: 'red',
   display: function(board, y, x){
     //space and text
     rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
@@ -88,4 +90,12 @@ let ttt = {
       return true;
     }
   }
+}
+
+function tttTrain(){
+
+}
+
+function tttDownload(){
+  
 }

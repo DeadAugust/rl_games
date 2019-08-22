@@ -10,3 +10,5 @@ TODO:
 - mobile scaling
 - better colors/square stroke
 - drop animation for c4
+- design overhaul
+- adjust after more games

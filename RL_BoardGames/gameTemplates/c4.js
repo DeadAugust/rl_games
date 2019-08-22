@@ -5,6 +5,8 @@ let c4 = {
   bCols: 7,
   p1: 'red',
   p2: 'yellow',
+  selfTrainModel: 'red',
+  downloadModel: 'red',
   display: function(board, y, x){
     //colored space
     push();
@@ -81,3 +83,11 @@ let c4 = {
     }
   }
 };
+
+function c4Train(){
+
+}
+
+function c4Download(){
+
+}

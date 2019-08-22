@@ -2,7 +2,7 @@
 let p1wins, p2wins;
 
 class Square {
-  constructor(bCols, bRows, gridX, gridY) { //
+  constructor(bCols, bRows, gridX, gridY, odd) { //
     this.bCols = bCols;
     this.bRows = bRows;
     this.gridX = gridX;
@@ -37,7 +37,7 @@ class Board {
     this.rows = rows;
 
     // relative size of board/squares and text
-    squareSize = boardWidth / rows; //matters?
+    squareSize = boardWidth / cols; //matters?
     textSize(4 * squareSize / 5);
 
     //top left corner of board
