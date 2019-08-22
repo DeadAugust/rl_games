@@ -1,5 +1,5 @@
-// template board and board space (square) classes
-let p1wins, p2wins;
+// template board and square classes
+let p1wins, p2wins, draws;
 
 class Square {
   constructor(bCols, bRows, gridX, gridY, odd) { //
@@ -89,6 +89,7 @@ class Board {
             }
           } else if (game.params.drawCheck(this)){
             gameEnd = true;
+            draws += 1;
             console.log('draw');
           } else{ //if no win or draw, change player, next turn
             if (currentPlayer == game.params.p1) {

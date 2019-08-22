@@ -12,3 +12,5 @@ TODO:
 - drop animation for c4
 - design overhaul
 - adjust after more games
+
+**Squares are for Displaying, Spaces are for Calculating**

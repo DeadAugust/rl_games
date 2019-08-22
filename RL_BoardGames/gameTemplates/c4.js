@@ -10,7 +10,7 @@ let c4 = {
   selfTrainedModelStatus: 'red',
   downloadedModelStatus: 'red',
   display: function(board, y, x){
-    //colored space
+    //colored square
     push();
     fill(board.grid[y][x].slot);
     rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
@@ -40,7 +40,6 @@ let c4 = {
   winCheck: function(board, player){ //don't need player
     let winCount = 4;
 
-    //wait, only need to check from move space.... but too complicated?
     //start from bottom right
     for (let y = board.rows - 1; y >= 0; y--){
       for (let x = board.cols - 1; x >= 0; x--){

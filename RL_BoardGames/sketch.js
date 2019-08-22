@@ -125,11 +125,13 @@ function setup() {
     .mousePressed(()=>{
       p1wins = 0;
       p2wins = 0;
+      draws = 0;
     });
 
   //starts with ttt
   p1wins = 0;
   p2wins = 0;
+  draws = 0;
   resetGame();
 }
 
@@ -139,15 +141,15 @@ function draw() {
   push();
   textSize(height/30);
   text('Tic Tac Toe Models:', width/6, 3*height/20);
-  fill(ttt.selfTrainModelStatus);
+  fill(ttt.selfTrainedModelStatus);
   ellipse(3*width/12, 5*height/20, circleSize);
-  fill(ttt.downloadModelStatus);
+  fill(ttt.downloadedModelStatus);
   ellipse(3*width/12, 7*height/20, circleSize);
   fill(0);
   text('Connect 4 Models:', width/6, 10*height/20);
-  fill(c4.selfTrainModelStatus);
+  fill(c4.selfTrainedModelStatus);
   ellipse(3*width/12, 12*height/20, circleSize);
-  fill(c4.downloadModelStatus);
+  fill(c4.downloadedModelStatus);
   ellipse(3*width/12, 14*height/20, circleSize);
   pop();
 
@@ -196,16 +198,18 @@ function draw() {
 
 function mousePressed() { //check if square was clicked
   if (!gameEnd){
-    game.board.move();
+    //only move if human player's turn
+    if (currentPlayer == game.params.p1 && player1 == 'human'){
+      game.board.move();
+    } else if (currentPlayer == game.params.p2 && player2 == 'human'){
+      game.board.move();
+    }
   }
 }
 
 function resetGame() {
   gameStarted = true;
   gameEnd = false;
-  //reset player data
-  // p1wins = 0;
-  // p2wins = 0;
   //change game data
   game.name = gameSelect.value();
   if (game.name == 'tic tac toe') {
@@ -221,4 +225,5 @@ function resetGame() {
   } else {
     currentPlayer = game.params.p2;
   }
+  //start the "arena" with game, currentPlayer, player1, player2
 }
