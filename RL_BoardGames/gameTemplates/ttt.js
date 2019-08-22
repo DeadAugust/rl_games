@@ -5,8 +5,10 @@ let ttt = {
   bCols: 3,
   p1: 'X',
   p2: 'O',
-  selfTrainModel: 'red',
-  downloadModel: 'red',
+  selfTrainedModel: null,
+  downloadedModel: null,
+  selfTrainedModelStatus: 'red',
+  downloadedModelStatus: 'red',
   display: function(board, y, x){
     //space and text
     rect(board.grid[y][x].centerX, board.grid[y][x].centerY, squareSize, squareSize);
@@ -96,6 +98,21 @@ function tttTrain(){
 
 }
 
-function tttDownload(){
-  
+async function tttDownload(){
+  if (ttt.downloadedModelStatus == 'red') {
+    console.log('TTT start to download');
+    ttt.downloadedModelStatus == 'blue'
+    await tttDownloadPretrained();
+    console.log('TTT model downloaded');
+    ttt.downloadedModelStatus = 'green';
+  }
+}
+
+async function tttDownloadPretrained(){
+  if (!ttt.downloadedModel){
+    //starting to blend with Grimmer
+    const humanGame = new TicTacToeGame();
+    ttt.downloadedModel = new NNetWrapper(humanGame);
+    await ttt.downloadedModel.loadPretrained('https://grimmer.io/alphago-tictactoe-keras-trained/model.json');
+  }
 }

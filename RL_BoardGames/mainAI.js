@@ -6,11 +6,11 @@ state = {
   // selfTrained: false,
   aiFirst: true,
   ttt: {
-    download: false,
-    selfTrain: false
+    selfTrained: false,
+    downloaded: false
   },
   c4: {
-    download: false,
-    selfTrain: false
+    selfTrained: false,
+    downloaded: false
   }
 };

@@ -139,15 +139,15 @@ function draw() {
   push();
   textSize(height/30);
   text('Tic Tac Toe Models:', width/6, 3*height/20);
-  fill(ttt.selfTrainModel);
+  fill(ttt.selfTrainModelStatus);
   ellipse(3*width/12, 5*height/20, circleSize);
-  fill(ttt.downloadModel);
+  fill(ttt.downloadModelStatus);
   ellipse(3*width/12, 7*height/20, circleSize);
   fill(0);
   text('Connect 4 Models:', width/6, 10*height/20);
-  fill(c4.selfTrainModel);
+  fill(c4.selfTrainModelStatus);
   ellipse(3*width/12, 12*height/20, circleSize);
-  fill(c4.downloadModel);
+  fill(c4.downloadModelStatus);
   ellipse(3*width/12, 14*height/20, circleSize);
   pop();
 

@@ -5,8 +5,10 @@ let c4 = {
   bCols: 7,
   p1: 'red',
   p2: 'yellow',
-  selfTrainModel: 'red',
-  downloadModel: 'red',
+  selfTrainedModel: null,
+  downloadedModel: null,
+  selfTrainedModelStatus: 'red',
+  downloadedModelStatus: 'red',
   display: function(board, y, x){
     //colored space
     push();
