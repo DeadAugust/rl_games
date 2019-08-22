@@ -61,15 +61,7 @@ function setup() {
     .position(width/12, 13 * height/40)
     .size(width/8, height/15)
     .style('fontSize', textPixels+'px')
-    .mousePressed(()=>{
-      // ttt.downloadedModelStatus == 'blue'; //need to put draw, this doesn't work
-      // push();
-      // fill(ttt.downloadedModelStatus);
-      // ellipse(3*width/12, 7*height/20, circleSize);
-      // pop();
-      blueTest();
-      tttDownload();
-    });
+    .mousePressed(tttDownload);
   c4TrainButt = createButton('Self-Train')
     .position(width/12, 23 * height/40)
     .size(width/8, height/15)
@@ -234,4 +226,12 @@ function resetGame() {
     currentPlayer = game.params.p2;
   }
   //start the "arena" with game, currentPlayer, player1, player2
+  let action;
+  action = play(game, player1, player2, currentPlayer);
+
+  if (action >=0){ //what does this do
+    console.log('ai starts at: ', action);
+    return action;
+  }
+  return -1; //why
 }

@@ -29,14 +29,6 @@ async function downloadPretrainedPit() {
   }
 }
 
-function humanMove(action) {
-  if (humanArena) {
-    return humanArena.humanStep(action);
-  }
-
-  return -1;
-}
-
 /**
  * play a game or games
  * mode:
@@ -118,4 +110,13 @@ function play(mode, aiFirst) {
   const arena = new Arena(firstPlayr, rp2, g, display);
   console.log(arena.playGames(25, true));
   console.log('finish');
+}
+
+
+function humanMove(action) {
+  if (humanArena) {
+    return humanArena.humanStep(action);
+  }
+
+  return -1;
 }

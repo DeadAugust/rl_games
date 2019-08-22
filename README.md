@@ -12,5 +12,6 @@ TODO:
 - drop animation for c4
 - design overhaul
 - adjust after more games
+- be able to adjust training parameters
 
 **Squares are for Displaying, Spaces are for Calculating**

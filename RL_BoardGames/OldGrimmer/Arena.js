@@ -136,6 +136,7 @@ class Arena {
   }
 
   //this is each individual game from start to finish
+  //but only for non-human games?
   playGame(verbose = false) {
     const players = [this.player2, null, this.player1];
     let curPlayer = 1;

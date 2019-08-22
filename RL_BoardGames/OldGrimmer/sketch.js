@@ -146,7 +146,7 @@ function mousePressed(){
       if (mouseX > x*squareSize && mouseX < (x+1)*squareSize
       && mouseY > y * squareSize && mouseY < (y+1)*squareSize){
         console.log(count);
-        humanMove(count);
+        humanMove(count); //index
       }
       count++;
     }
