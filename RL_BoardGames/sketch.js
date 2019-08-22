@@ -197,6 +197,8 @@ function draw() {
 }
 
 function mousePressed() { //check if square was clicked
+  let ne = new TicTacToeGame();
+  console.log(ne.getSpaces());
   if (!gameEnd){
     //only move if human player's turn
     if (currentPlayer == game.params.p1 && player1 == 'human'){

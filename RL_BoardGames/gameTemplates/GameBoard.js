@@ -44,8 +44,7 @@ class Board {
     boardCornerX = (width/2) - (boardWidth / 2);
     boardCornerY = (height/2) - (boardHeight / 2);
 
-    //new/old 2D grid
-    // let grid = new Array(this.rows).fill(Array(this.cols).fill(''));
+    //new/old 2D grid for displaying
     let grid = [];
     for (let y = 0; y < this.rows; y++){
       let gridRow = [];
@@ -58,6 +57,9 @@ class Board {
     }
     console.log(grid);
     this.grid = grid;
+
+    //trying to combine with TicTacToeLogic
+    this.spaces = Array(this.rows).fill(Array(this.cols).fill(0));
   }
   draw() { //display game
     for (let y = 0; y < this.rows; y++){
