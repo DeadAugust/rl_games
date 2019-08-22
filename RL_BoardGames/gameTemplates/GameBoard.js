@@ -1,4 +1,5 @@
 // template board and board space (square) classes
+let p1wins, p2wins;
 
 class Square {
   constructor(bCols, bRows, gridX, gridY) { //
@@ -22,7 +23,7 @@ class Square {
     let d = dist(mouseX, mouseY, this.centerX, this.centerY);
 
     if (d < (squareSize / 2)) {
-      console.log(this.slot, this.gridX, this.gridY, this.centerX, this.centerY);
+      // console.log(this.slot, this.gridX, this.gridY, this.centerX, this.centerY);
       if (this.slot == '') { //only click on empty spaces (will need to change)
         return true;
       }
@@ -61,10 +62,12 @@ class Board {
   draw() { //display game
     for (let y = 0; y < this.rows; y++){
       for (let x = 0; x < this.cols; x++){
+        push();
         strokeWeight(this.grid[y][x].winWeight);
         stroke(this.grid[y][x].win);
         //different display for each game, some text some fill
         game.params.display(this, y, x);
+        pop();
       }
     }
   }
@@ -79,6 +82,11 @@ class Board {
           if (game.params.winCheck(this, currentPlayer)){
             gameEnd = true;
             console.log(currentPlayer + " wins!");
+            if (currentPlayer == game.params.p1){
+              p1wins += 1;
+            } else {
+              p2wins += 1;
+            }
           } else if (game.params.drawCheck(this)){
             gameEnd = true;
             console.log('draw');

@@ -6,13 +6,18 @@
   based on u/Grimmer1025's tf.js tic tac toe repo
 */
 //DOM elements
-let gameSelect, reset;
+let trainButt, downloadButt; //left side
+let gameSelect, reset; //center
+let player1Select, player2Select, resetWinsButt; //right side
+
 //overall variables
 let game = { //just for start
   name: 'tic tac toe',
   params: ttt
 }
 let currentPlayer;
+let player1, player2; //for select option storing
+// let p1wins, p2wins; //moved to GameBoard.js
 let gameStarted = false;
 // let firstMove = false;
 let squareSize; //need to make a part of board variable so bigger board still small
@@ -40,25 +45,67 @@ function setup() {
     boardHeight = height / 2;
     boardWidth = boardHeight;
   }
+  // LEFT DOM
 
+
+  // CENTER DOM
   //game dropdown
-  gameSelect = createSelect();
-  gameSelect.position(width / 2, height / 20);
+  gameSelect = createSelect()
+    .position(width / 2, height / 20);
+  gameSelect.option('tic tac toe'); //why doesn't option work unless I'm verbose?
   gameSelect.option('connect 4');
-  
-  gameSelect.option('tic tac toe');
-  // gameSelect.changed(changeGame);
 
   //reset game
-  reset = createButton('New Game');
-  reset.position(width / 2, height / 10);
-  reset.mousePressed(resetGame);
+  reset = createButton('New Game')
+    .position(width / 2, height / 10)
+    .mousePressed(resetGame);
 
-  resetGame(); //starts with ttt
+  //RIGHT DOM
+  //player options
+  player1Select = createSelect();
+  player1Select.position(5 * width / 6, 2* height / 6);
+  player1Select.size(width/7, height/14);
+  player1Select.style('fontSize', '30px'); //how to relative?
+  player1Select.option('human');
+  player1Select.option('self trained');
+  player1Select.option('downloaded');
+  player1Select.option('random');
+  player1Select.changed(() => {
+    player1 = player1Select.value();
+  });
+  player1 = player1Select.value();
+
+  player2Select = createSelect();
+  player2Select.position(5 * width / 6, 4 * height / 6);
+  player2Select.size(width/7, height/14);
+  player2Select.style('fontSize', '30px'); //how to relative?
+  player2Select.option('human');
+  player2Select.option('self trained');
+  player2Select.option('downloaded');
+  player2Select.option('random');
+  player2Select.changed(() => {
+    player2 = player2Select.value();
+  });
+  player2 = player2Select.value();
+
+  //reset game
+  resetWinsButt = createButton('reset wins')
+    .position(5 * width / 6, 7 * height / 8)
+    .size(width/14, height/28)
+    .mousePressed(()=>{
+      p1wins = 0;
+      p2wins = 0;
+    });
+
+  //starts with ttt
+  p1wins = 0;
+  p2wins = 0;
+  resetGame();
 }
 
 function draw() {
   background(50, 225, 100); // green
+  //CENTER
   push();
   noStroke();
   textSize(height/15);
@@ -69,6 +116,16 @@ function draw() {
     text('Player Turn: ' + currentPlayer, width / 2, 2 * height / 10);
   }
   pop();
+  //RIGHT
+  push();
+  textSize(height/20);
+  text('Player 1: ' + game.params.p1, 5 * width / 6, height / 6);
+  text('p1 wins: ' + p1wins, 5* width/6, 3 * height/12);
+  text('Player 2: ' + game.params.p2, 5 * width / 6, 3 * height / 6);
+  text('p2 wins: ' + p2wins, 5* width/6, 7 * height/12);
+  pop();
+
+  //display game
   game.board.draw();
 }
 
@@ -81,6 +138,9 @@ function mousePressed() { //check if square was clicked
 function resetGame() {
   gameStarted = true;
   gameEnd = false;
+  //reset player data
+  // p1wins = 0;
+  // p2wins = 0;
   //change game data
   game.name = gameSelect.value();
   if (game.name == 'tic tac toe') {
