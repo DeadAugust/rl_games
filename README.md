@@ -5,8 +5,13 @@ for ml5.js
 
 based on https://github.com/grimmer0125/alphago-zero-tictactoe-js
 
+TODO(shortterm):
+- mainAI...
+- new for c4
+- random player
+- training animation
 
-TODO:
+TODO(longterm):
 - mobile scaling
 - better colors/square stroke
 - drop animation for c4
