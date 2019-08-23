@@ -89,7 +89,7 @@ function humanMove(action) {
   // return -1; //why
 }
 
-new Arena {
+class Arena {
   //player number reversed to distinguish, since its more about order here
   constructor(1player, 2player, game, display){
     console.log('making new arena');
